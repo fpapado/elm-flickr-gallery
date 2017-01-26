@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (placeholder, src)
+import Html.Attributes exposing (class, href, placeholder, rel, src, style)
 import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode exposing (Decoder)
@@ -117,19 +117,25 @@ picturesDecoder =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ h1 [] [ text "Flickr Gallery" ]
-        , input [ placeholder "Username", onInput EditUsername ] []
-        , button [ onClick (FindPhotosByUsername) ] [ text "Get photos!" ]
+    div [ class "mw7-ns pa3 center" ]
+        [ node "link" [ rel "stylesheet", href "https://unpkg.com/tachyons@4.6.1/css/tachyons.min.css" ] []
+        , h1 [ class "f2 f1-ns tc sans-serif navy" ] [ text "Elm Flickr Gallery" ]
+        , div [ class "tc mb4" ]
+            [ input [ placeholder "Username", onInput EditUsername, class "input-reset dib mr2 mt2 pa2 ba bw1 b--blue black-80" ] []
+            , button [ onClick (FindPhotosByUsername), class "dib pa2 mt2 pointer ba bw1 b--dark-pink bg-animate hover-bg-dark-pink hover-white black-80 bg-white" ]
+                [ text "Get photos!" ]
+            ]
         , errorView model.error
-        , div []
+        , div [ class "flex flex-wrap" ]
             (List.map imageView model.pictures)
         ]
 
 
 imageView : Picture -> Html Msg
 imageView picture =
-    img [ src picture.url ] []
+    div [ class "ph2 mb3", style [ ( "flex", "0 0 25%" ) ] ]
+        [ img [ src picture.url, class "w-100" ] []
+        ]
 
 
 errorView : Maybe Http.Error -> Html Msg

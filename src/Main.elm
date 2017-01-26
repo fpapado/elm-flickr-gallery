@@ -39,7 +39,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         FindPhotosByUsername ->
-            ( model, findUserId model.username )
+            ( model, findUserAndPhotos model.username )
 
         AddNewPhotos (Ok result) ->
             ( { model | pictures = result }, Cmd.none )
@@ -51,7 +51,17 @@ update msg model =
             ( { model | username = username_ }, Cmd.none )
 
 
-findUserId : String -> Cmd Msg
+findUserAndPhotos : String -> Cmd Msg
+findUserAndPhotos username =
+    let
+        chain =
+            Http.toTask (findUserId username)
+                |> Task.andThen (\user_id -> (Http.toTask (getPicturesByUID user_id)))
+    in
+        Task.attempt AddNewPhotos chain
+
+
+findUserId : String -> Http.Request String
 findUserId username =
     let
         url =
@@ -62,25 +72,13 @@ findUserId username =
                 ++ username
                 ++ "&format=json"
                 ++ "&nojsoncallback=1"
-
-        request =
-            Http.get url userIdDecoder
-
-        chain =
-            Http.toTask request
-                |> Task.andThen (\user_id -> (Http.toTask (getPicturesByUID user_id)))
     in
-        Task.attempt AddNewPhotos chain
+        Http.get url userIdDecoder
 
 
 userIdDecoder : Decoder String
 userIdDecoder =
-    let
-        decodeUserId =
-            decode toString
-                |> required "id" Decode.string
-    in
-        Decode.at [ "user", "id" ] (Decode.string)
+    Decode.at [ "user", "id" ] (Decode.string)
 
 
 getPicturesByUID : String -> Http.Request (List Picture)

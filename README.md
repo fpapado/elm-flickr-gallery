@@ -11,3 +11,13 @@ These are the main differences now:
  - Task.perform is now only for tasks that can't fail
   - Task.attempt is no used for Tasks that can fail. The message sent also handles Result type's Ok and Err
     - You can see how this aligns with Http.send
+
+Note that there is a separate function getUserAndPhotos that handles casting the Http.Request functions to Tasks.
+This allows each function to be used individually, as well as through Http.send, if required.
+
+Further Todos:
+  - Consider how to print separate error messages for each stage
+    - "could not find user"
+    - "could not load photos"
+  - Similarly, how to convert/map Decode pipeline errors into human-readable ones
+  - Loading / progress indicators for each img src

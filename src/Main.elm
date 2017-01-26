@@ -15,6 +15,7 @@ import Task exposing (andThen)
 type alias Model =
     { pictures : List Picture
     , username : String
+    , error : Maybe Http.Error
     }
 
 
@@ -42,10 +43,10 @@ update msg model =
             ( model, findUserAndPhotos model.username )
 
         AddNewPhotos (Ok result) ->
-            ( { model | pictures = result }, Cmd.none )
+            ( { model | pictures = result, error = Nothing }, Cmd.none )
 
-        AddNewPhotos (Err _) ->
-            ( model, Cmd.none )
+        AddNewPhotos (Err error_) ->
+            ( { model | error = Just error_ }, Cmd.none )
 
         EditUsername username_ ->
             ( { model | username = username_ }, Cmd.none )
@@ -120,6 +121,7 @@ view model =
         [ h1 [] [ text "Flickr Gallery" ]
         , input [ placeholder "Username", onInput EditUsername ] []
         , button [ onClick (FindPhotosByUsername) ] [ text "Get photos!" ]
+        , errorView model.error
         , div []
             (List.map imageView model.pictures)
         ]
@@ -128,6 +130,18 @@ view model =
 imageView : Picture -> Html Msg
 imageView picture =
     img [ src picture.url ] []
+
+
+errorView : Maybe Http.Error -> Html Msg
+errorView errorHttpMaybe =
+    div []
+        [ case errorHttpMaybe of
+            Just errorHttp ->
+                text <| toString errorHttp
+
+            Nothing ->
+                text ""
+        ]
 
 
 
@@ -145,7 +159,7 @@ subscriptions model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { pictures = [], username = "" }, Cmd.none )
+    ( { pictures = [], username = "", error = Nothing }, Cmd.none )
 
 
 main : Program Never Model Msg

@@ -15,7 +15,6 @@ import Task exposing (andThen)
 type alias Model =
     { pictures : List Picture
     , username : String
-    , user_id : String
     }
 
 
@@ -31,40 +30,25 @@ type alias Picture =
 
 
 type Msg
-    = GetUserPictures
-    | FetchMore
-    | NewPhotos (Result Http.Error (List Picture))
-    | EditUsername String
+    = EditUsername String
+    | AddNewPhotos (Result Http.Error (List Picture))
     | FindPhotosByUsername
-    | UpdateUserId (Result Http.Error String)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        GetUserPictures ->
-            ( model, getPictures model.user_id )
-
         FindPhotosByUsername ->
             ( model, findUserId model.username )
 
-        FetchMore ->
-            ( model, Cmd.none )
-
-        NewPhotos (Ok result) ->
+        AddNewPhotos (Ok result) ->
             ( { model | pictures = result }, Cmd.none )
 
-        NewPhotos (Err _) ->
+        AddNewPhotos (Err _) ->
             ( model, Cmd.none )
 
         EditUsername username_ ->
             ( { model | username = username_ }, Cmd.none )
-
-        UpdateUserId (Ok result) ->
-            ( { model | user_id = result }, Cmd.none )
-
-        UpdateUserId (Err _) ->
-            ( model, Cmd.none )
 
 
 findUserId : String -> Cmd Msg
@@ -86,7 +70,7 @@ findUserId username =
             Http.toTask request
                 |> Task.andThen (\user_id -> (Http.toTask (getPicturesByUID user_id)))
     in
-        Task.attempt NewPhotos chain
+        Task.attempt AddNewPhotos chain
 
 
 userIdDecoder : Decoder String
@@ -97,26 +81,6 @@ userIdDecoder =
                 |> required "id" Decode.string
     in
         Decode.at [ "user", "id" ] (Decode.string)
-
-
-getPictures : String -> Cmd Msg
-getPictures user_id =
-    let
-        url =
-            "https://api.flickr.com/services/rest/"
-                ++ "?method=flickr.people.getPhotos"
-                ++ "&api_key=777643948c3de563bdf7190a21ba6373"
-                ++ "&user_id="
-                ++ user_id
-                ++ "&format=json"
-                ++ "&extras=url_q"
-                ++ "&nojsoncallback=1"
-                ++ "&per_page=100"
-
-        request =
-            Http.get url picturesDecoder
-    in
-        Http.send NewPhotos request
 
 
 getPicturesByUID : String -> Http.Request (List Picture)
@@ -183,7 +147,7 @@ subscriptions model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { pictures = [], username = "", user_id = "12037949632@N01" }, Cmd.none )
+    ( { pictures = [], username = "" }, Cmd.none )
 
 
 main : Program Never Model Msg

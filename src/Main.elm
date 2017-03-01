@@ -68,7 +68,7 @@ findUserId username =
         url =
             "https://api.flickr.com/services/rest/"
                 ++ "?method=flickr.people.findByUsername"
-                ++ "&api_key=777643948c3de563bdf7190a21ba6373"
+                ++ "&api_key=YOUR_KEY_HERE"
                 ++ "&username="
                 ++ username
                 ++ "&format=json"
@@ -88,7 +88,7 @@ getPicturesByUID user_id =
         url =
             "https://api.flickr.com/services/rest/"
                 ++ "?method=flickr.people.getPhotos"
-                ++ "&api_key=777643948c3de563bdf7190a21ba6373"
+                ++ "&api_key=YOUR_KEY_HERE"
                 ++ "&user_id="
                 ++ user_id
                 ++ "&format=json"

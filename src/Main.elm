@@ -9,6 +9,11 @@ import Json.Decode.Pipeline exposing (decode, optional, required)
 import Task exposing (andThen)
 
 
+apiKey =
+    "777643948c3de563bdf7190a21ba6373"
+
+
+
 -- Model
 
 
@@ -68,7 +73,8 @@ findUserId username =
         url =
             "https://api.flickr.com/services/rest/"
                 ++ "?method=flickr.people.findByUsername"
-                ++ "&api_key=YOUR_KEY_HERE"
+                ++ "&api_key="
+                ++ apiKey
                 ++ "&username="
                 ++ username
                 ++ "&format=json"
@@ -88,7 +94,8 @@ getPicturesByUID user_id =
         url =
             "https://api.flickr.com/services/rest/"
                 ++ "?method=flickr.people.getPhotos"
-                ++ "&api_key=YOUR_KEY_HERE"
+                ++ "&api_key="
+                ++ apiKey
                 ++ "&user_id="
                 ++ user_id
                 ++ "&format=json"

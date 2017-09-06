@@ -20,11 +20,24 @@ This allows each `Http.Request` (`findUserId`, `getPicturesByUID`) to be used ei
 If you want to try this out on your own machine, you would need to add an API key, as string, in the respective parts of `findUserId` and `getPicturesByUID`.
 [You can do this via the flickr website](https://www.flickr.com/services/api/misc.api_keys.html).
 
+## Running
+### Development
+```shell
+elm-reactor
+```
+
+### Building
+```shell
+elm-make src/Main.elm
+```
+Then serve `index.html` however you want :)
+
 ## Further work:
   - Consider how to print separate error messages for each stage
     - "could not find user"
     - "could not load photos"
   - Similarly, how to convert/map Decode pipeline errors into human-readable ones
+
 
 ## References
 *Flickr API use inspired by:*

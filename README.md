@@ -1,5 +1,11 @@
 # Elm Gallery for Flickr
-This project was created to demonstrate Elm Tasks and their relation to the revamped elm-lang/http library in 0.18.
+This project was initially created to demonstrate Elm Tasks and their relation to the revamped elm-lang/http library in 0.18.
+
+After that, it is being modified to serve as an example of:
+  - [ ] RemoteData modelling
+  - [ ] Error messages
+  - [ ] Quick grid layout, with fallback
+See todo.md for more :)
 
 The application tries to find a user's id by their username, and then gets all their photos.
 
@@ -31,13 +37,6 @@ elm-reactor
 elm-make src/Main.elm
 ```
 Then serve `index.html` however you want :)
-
-## Further work:
-  - Consider how to print separate error messages for each stage
-    - "could not find user"
-    - "could not load photos"
-  - Similarly, how to convert/map Decode pipeline errors into human-readable ones
-
 
 ## References
 *Flickr API use inspired by:*

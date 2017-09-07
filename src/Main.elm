@@ -144,8 +144,8 @@ formView username =
         descText =
             "The username whose photos to fetch"
     in
-        form [ class "tc mt2 mb4 flex center flex-wrap justify-center items-center align-center", onSubmit FindPhotosByUsername ]
-            [ div [ class "mr2" ]
+        form [ class "tc mt2 mb4 flex center flex-wrap justify-center items-center align-center flex-row-ns flex-column", onSubmit FindPhotosByUsername ]
+            [ div [ class "mr2-ns mb2 mb0-ns" ]
                 [ label [ class "f6 b db mv1 tl", for unameFieldId ] [ text "Username" ]
                 , input
                     [ id unameFieldId

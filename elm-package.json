@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "summary": "Example of a flickr gallery, in Elm",
     "repository": "https://github.com/fpapado/elm-flickr-gallery.git",
-    "license": "BSD3",
+    "license": "MIT",
     "source-directories": [
         "src"
     ],

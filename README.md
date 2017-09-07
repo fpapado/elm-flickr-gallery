@@ -28,8 +28,16 @@ If you want to try this out on your own machine, you would need to add an API ke
 
 ## Running
 ### Development
+If you don't already have `elm` and `elm-live`:
+
 ```shell
-elm-reactor
+npm install -g elm elm-live
+```
+
+Then, to build everything:
+
+```shell
+elm-live src/Main.elm --open --debug
 ```
 
 ### Building

@@ -37,14 +37,11 @@ npm install -g elm elm-live
 Then, to build everything:
 
 ```shell
-elm-live src/Main.elm --open --debug
+elm-live --output=elm.js src/Main.elm --open --debug
 ```
 
-### Building
-```shell
-elm-make src/Main.elm
-```
-Then serve `index.html` however you want :)
+### Production
+Serve `index.html` and `elm.js` however you want :)
 
 ## References
 *Flickr API use inspired by:*

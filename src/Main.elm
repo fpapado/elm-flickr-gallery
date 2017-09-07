@@ -124,9 +124,8 @@ picturesDecoder =
 
 view : Model -> Html Msg
 view model =
-    div [ class "mw7-ns pa3 center" ]
-        [ node "link" [ rel "stylesheet", href "https://unpkg.com/tachyons@4.6.1/css/tachyons.min.css" ] []
-        , h1 [ class "f2 f1-ns tc sans-serif navy" ] [ text "Elm Flickr Gallery" ]
+    div [ class "mw7-ns pa3 center sans-serif" ]
+        [ h1 [ class "f2 f1-ns tc navy" ] [ text "Elm Flickr Gallery" ]
         , formView model.username
         , errorView model.error
         , div [ class "flex flex-wrap" ]
@@ -145,7 +144,7 @@ formView username =
         descText =
             "The username whose photos to fetch"
     in
-        form [ class "tc mt2 mb4 flex center flex-wrap", style [ ( "align-items", "center" ), ( "justify-content", "center" ) ], onSubmit FindPhotosByUsername ]
+        form [ class "tc mt2 mb4 flex center flex-wrap justify-center items-center align-center", onSubmit FindPhotosByUsername ]
             [ div [ class "mr2" ]
                 [ label [ class "f6 b db mv1 tl", for unameFieldId ] [ text "Username" ]
                 , input

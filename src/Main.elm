@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href, placeholder, rel, src, style)
+import Html.Attributes exposing (class, href, placeholder, rel, src, style, for, id, attribute, type_, value)
 import Html.Events exposing (..)
 import Http
 import Json.Decode as Decode exposing (Decoder)
@@ -127,15 +127,42 @@ view model =
     div [ class "mw7-ns pa3 center" ]
         [ node "link" [ rel "stylesheet", href "https://unpkg.com/tachyons@4.6.1/css/tachyons.min.css" ] []
         , h1 [ class "f2 f1-ns tc sans-serif navy" ] [ text "Elm Flickr Gallery" ]
-        , div [ class "tc mb4" ]
-            [ input [ placeholder "Username", onInput EditUsername, class "input-reset dib mr2 mt2 pa2 ba bw1 b--blue black-80" ] []
-            , button [ onClick (FindPhotosByUsername), class "dib pa2 mt2 pointer ba bw1 b--dark-pink bg-animate hover-bg-dark-pink hover-white black-80 bg-white" ]
-                [ text "Get photos!" ]
-            ]
+        , formView model.username
         , errorView model.error
         , div [ class "flex flex-wrap" ]
             (List.map imageView model.pictures)
         ]
+
+
+formView username =
+    let
+        unameFieldId =
+            "username"
+
+        unameDesc =
+            unameFieldId ++ "-desc"
+
+        descText =
+            "The username whose photos to fetch"
+    in
+        form [ class "tc mt2 mb4 flex center flex-wrap", style [ ( "align-items", "center" ), ( "justify-content", "center" ) ], onSubmit FindPhotosByUsername ]
+            [ div [ class "mr2" ]
+                [ label [ class "f6 b db mv1 tl", for unameFieldId ] [ text "Username" ]
+                , input
+                    [ id unameFieldId
+                    , type_ "text"
+                    , placeholder "Username"
+                    , attribute "aria-describedby" <| unameDesc
+                    , value username
+                    , onInput EditUsername
+                    , class "input-reset db pa2 ba bw1 b--blue black-80"
+                    ]
+                    []
+                , small [ class "f6 black-60 db mt1 mb2", id <| unameDesc ] [ text descText ]
+                ]
+            , button [ class "db pa2 pointer ba bw1 b--dark-pink bg-animate hover-bg-dark-pink hover-white black-80 bg-white" ]
+                [ text "Get photos!" ]
+            ]
 
 
 imageView : Picture -> Html Msg

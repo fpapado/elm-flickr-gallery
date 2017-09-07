@@ -7,6 +7,7 @@ After that, it is being modified to serve as an example of:
   - [ ] Quick grid layout, with fallback
 See todo.md for more :)
 
+## Chaining Tasks
 The application tries to find a user's id by their username, and then gets all their photos.
 
 These are the main steps that I came up with for this version of Elm:
@@ -40,7 +41,7 @@ Then, to build everything:
 elm-live --output=elm.js src/Main.elm --open --debug
 ```
 
-### Production
+### Deployment
 Serve `index.html` and `elm.js` however you want :)
 
 ## References
@@ -51,3 +52,6 @@ Serve `index.html` and `elm.js` however you want :)
 
 [Elm Http Docs](http://package.elm-lang.org/packages/elm-lang/http/latest)
 
+## License
+
+MIT © Fotis Papadogeorgopoulos

@@ -1,5 +1,6 @@
 module Main exposing (..)
 
+import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, placeholder, rel, src, style, for, id, attribute, type_, value)
 import Html.Events exposing (..)
@@ -124,15 +125,59 @@ picturesDecoder =
 
 view : Model -> Html Msg
 view model =
-    div [ class "mw7-ns pa3 center sans-serif" ]
+    div [ class "pa3 center sans-serif" ]
         [ h1 [ class "f2 f1-ns tc navy" ] [ text "Elm Flickr Gallery" ]
         , formView model.username
         , errorView model.error
-        , div [ class "flex flex-wrap" ]
-            (List.map imageView model.pictures)
+        , imagesView defaultPattern model.pictures
         ]
 
 
+
+-- GRID --
+--NOTE: Does this make sense if we are falling back to flexbox?
+
+
+type alias GridPattern =
+    Dict Int CellStyle
+
+
+type alias CellStyle =
+    ( String, String )
+
+
+defaultPattern : GridPattern
+defaultPattern =
+    -- NOTE: more variations possible here :)
+    Dict.fromList
+        [ ( 0, ( "wide-2", "tall-2" ) )
+        ]
+
+
+cellStyle : Int -> GridPattern -> Int -> CellStyle
+cellStyle cycle gp i =
+    Dict.get (i % cycle) gp
+        |> Maybe.withDefault ( "wide-1", "tall-1" )
+
+
+imagesView : GridPattern -> List Picture -> Html Msg
+imagesView gp pictures =
+    div [ class "grid layout center justify-center" ]
+        (List.indexedMap (imageView << cellStyle 3 gp) pictures)
+
+
+imageView : CellStyle -> Picture -> Html Msg
+imageView ( width, height ) picture =
+    div [ class <| width ++ " " ++ height ]
+        [ img [ src picture.url, class "w-100" ] []
+        ]
+
+
+
+-- FORM --
+
+
+formView : String -> Html Msg
 formView username =
     let
         unameFieldId =
@@ -144,7 +189,7 @@ formView username =
         descText =
             "The username whose photos to fetch"
     in
-        form [ class "tc mt2 mb4 flex center flex-wrap justify-center items-center align-center flex-row-ns flex-column", onSubmit FindPhotosByUsername ]
+        form [ class "tc mt2 mb4 flex center flex-wrap justify-center items-center flex-row-ns flex-column", onSubmit FindPhotosByUsername ]
             [ div [ class "mr2-ns mb2 mb0-ns" ]
                 [ label [ class "f6 b db mv1 tl", for unameFieldId ] [ text "Username" ]
                 , input
@@ -162,13 +207,6 @@ formView username =
             , button [ class "db pa2 pointer ba bw1 b--dark-pink bg-animate hover-bg-dark-pink hover-white black-80 bg-white" ]
                 [ text "Get photos!" ]
             ]
-
-
-imageView : Picture -> Html Msg
-imageView picture =
-    div [ class "ph2 mb3", style [ ( "flex", "0 0 25%" ) ] ]
-        [ img [ src picture.url, class "w-100" ] []
-        ]
 
 
 errorView : Maybe Http.Error -> Html Msg

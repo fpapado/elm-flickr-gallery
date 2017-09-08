@@ -1,0 +1,41 @@
+.grid {
+  display: grid;
+}
+
+/**
+ * Grid Layout
+ * CSS Vars allow us to scale the height according to the width in each
+ * breakpoint. Similarly, we need the height to specify the rows correctly.
+ * Width = (grid_width - (gutters + padding)) / no_of_cols
+ * Height = width, since we're using square thumbnails
+ * gutters = 1rem each side
+ *
+ * Inspired by http://varun.ca/css-grid/
+ */
+:root {
+  --width: calc((100vw - 3rem) / 2);
+  --height: calc(1000 * var(--width) / 1000);
+}
+
+.layout {
+  grid-gap: 1rem;
+  grid-template-columns: repeat(2, var(--width));
+  grid-auto-rows: var(--height);
+  grid-auto-flow: dense;
+}
+
+@media screen and (min-width: 30em) and (max-width: 60em) {
+  :root { --width: calc((100vw - 4rem) / 3); }
+  .layout { grid-template-columns: repeat(3, var(--width)); }
+}
+
+@media screen and (min-width: 60em) {
+  :root { --width: calc((60em - 5rem) / 4); }
+  .layout { grid-template-columns: repeat(4, var(--width)); }
+}
+
+/**
+ * Adjust rows/columns tachyons-style
+ */
+.wide-2 { grid-column-end: span 2; }
+.tall-2 { grid-row-end: span 2; }

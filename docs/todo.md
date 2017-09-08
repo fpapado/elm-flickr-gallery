@@ -5,5 +5,9 @@
     - [ ] "could not load photos"
     - Maybe a higher-order function that takes the error message?
   - [ ] Similarly, how to convert/map Decode pipeline errors into human-readable ones
-  - [ ] CSS grid with @supports?
-    - [ ] Scale Flexbox on Smaller devices
+  - [X] CSS Grid, semi-dynamic pattern
+    - [X] Grid scaling
+    - [ ] CSS grid with @supports? / Fallback
+  - [ ] Html lazy
+  - [ ] "Deploy to now" with API key env var?
+    - Would need build step

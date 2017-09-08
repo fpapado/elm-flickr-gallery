@@ -4,8 +4,10 @@ This project was initially created to demonstrate Elm Tasks and their relation t
 After that, it is being modified to serve as an example of:
   - [ ] RemoteData modelling
   - [ ] Error messages
-  - [ ] Quick grid layout, with fallback
-See todo.md for more :)
+  - [X] Quick grid layout,
+    - [ ] with fallback
+
+See `todo.md` for more :)
 
 ## Chaining Tasks
 The application tries to find a user's id by their username, and then gets all their photos.
@@ -51,6 +53,8 @@ Serve `index.html` and `elm.js` however you want :)
 [Elm Task Docs](http://package.elm-lang.org/packages/elm-lang/core/5.1.1/Task)
 
 [Elm Http Docs](http://package.elm-lang.org/packages/elm-lang/http/latest)
+
+[Learning CSS Grids](http://varun.ca/css-grid/)
 
 ## License
 
